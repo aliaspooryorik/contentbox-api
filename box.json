@@ -1,0 +1,31 @@
+{
+    "name":"ContentBox Contentstore API",
+    "shortDescription":"This module creates an API for the ContentBox ContentStore",
+    "version":"1.0.0",
+    "slug":"contentbox-pastebin",
+    "author":"Gavin Pickin",
+    "repository":{
+        "type":"git",
+        "url":"https://github.com/aliaspooryorik/contentbox-api"
+    },
+    "bugs":"https://github.com/contentbox-modules/contentbox-pastebin/issues",
+    "type":"contentbox-modules",
+    "license":[
+        {
+            "type":"Apache2",
+            "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    ],
+    "contributors":[
+        
+    ],
+    "dependencies":{
+    },
+    "devDependencies":{
+        
+    },
+    "installPaths":{
+    },
+    "ignore":[
+    ]
+}
