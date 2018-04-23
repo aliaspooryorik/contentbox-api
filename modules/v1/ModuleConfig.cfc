@@ -48,7 +48,7 @@ component {
 
 			// ContentStore
 			{
-				pattern = "/contentstore/search",
+				pattern = "/contentstore/search/:slugPrefix?",
 				handler = "contentstore",
 				action 	= { GET = "search", POST = "search" }
 			},
