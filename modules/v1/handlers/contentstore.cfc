@@ -12,10 +12,7 @@ component extends="api.handlers.BaseHandler"{
 	function search( event, rc, prc ){
 		param name="rc.sortOrder" default="publishedDate";
 		param name="rc.max" default="0";
-		param name="rc.location" default="all";
 		param name="rc.isPublished" default="1";
-		param name="rc.onlyVisible" default="true";
-		param name="rc.date" default="#now()#";
 		param name="rc.slugPrefix" default="";
 		param name="rc.memento" default="false";
 
@@ -25,22 +22,25 @@ component extends="api.handlers.BaseHandler"{
 			sortOrder=rc.sortOrder,
 			isPublished=rc.isPublished
 		);
+
 		prc.returnArray = [];
-		for( item in prc.list.content ){
+		for( var item in prc.list.content ){
 			if( arrayLen( prc.returnArray ) lte rc.max || rc.max == 0 ){
-				if( !rc.onlyVisible || rc.date gte item.getPublishedDate() && rc.date lte item.getExpireDate() ){
+
+				if( !item.isExpired() ){
 					if( rc.memento == true ){
-						var itemStruct = item.getMemento();
+						var payload = item.getMemento();
 					} else {
-						var itemStruct = {
+						var payload = {
 							"title": item.getTitle(),
+							"slug": item.getSlug(),
 							"startDate": item.getPublishedDate(),
 							"endDate": item.getExpireDate()
 						};
-						structAppend( itemStruct, item.getCustomFieldsAsStruct() );
+						structAppend( payload, item.getCustomFieldsAsStruct() );
 					}
 
-					arrayAppend( prc.returnArray, itemStruct );
+					arrayAppend( prc.returnArray, payload );
 				}
 			}
 		}
@@ -62,17 +62,20 @@ component extends="api.handlers.BaseHandler"{
 			prc.response.addMessage( 'ContentStore item not found' );
 		} else {
 			if( rc.memento == true ){
-				var itemStruct = item.getMemento();
+				var payload = item.getMemento();
 			} else {
-				var itemStruct = {
+				var payload = {
 					"title": item.getTitle(),
+					"content": item.getcontent(),
+					"isContentPublished": item.isContentPublished(),
+					"hasActiveContent": item.hasActiveContent(),
 					"startDate": item.getPublishedDate(),
 					"endDate": item.getExpireDate()
 				};
-				structAppend( itemStruct, item.getCustomFieldsAsStruct() );
+				structAppend( payload, item.getCustomFieldsAsStruct() );
 			}
 
-			prc.response.setData( itemStruct );
+			prc.response.setData( payload );
 		}
 
 
